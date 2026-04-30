@@ -14,5 +14,11 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# logs 
+# logs
 *.log
+
+# rules_repo — populated locally from bundles (see README)
+rules_repo/sigma/
+rules_repo/splunk_sc/
+rules_repo/sigma.bundle
+rules_repo/splunk_sc.bundle

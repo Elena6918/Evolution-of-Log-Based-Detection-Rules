@@ -1,0 +1,8 @@
+[submodule "rules_repo/sigma"]
+	path = rules_repo/sigma
+	url = ./rules_repo/sigma.bundle
+	branch = snapshot
+[submodule "rules_repo/splunk_sc"]
+	path = rules_repo/splunk_sc
+	url = ./rules_repo/splunk_sc.bundle
+	branch = snapshot
