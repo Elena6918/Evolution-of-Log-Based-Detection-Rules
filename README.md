@@ -41,7 +41,66 @@ For the clearest artifact-review path, download the following folders from the [
 
 With those folders in place, you can proceed directly to the notebooks in `analysis/scripts/` and reproduce the paper outputs without rebuilding the data-prep pipeline.
 
-### 3. Restore rule repository snapshots
+### 3. Run the IR pipeline (`ir_src/`)
+
+Parses the SPL in each rule version into a Predicate-Graph IR (PG-IR) used by all downstream analysis.
+
+**Input:** `data_prep/build_data/rule_versions_{repo}.jsonl`
+
+```bash
+cd data_prep/ir_src
+./run_pipeline.sh           # both repos
+./run_pipeline.sh sigma     # sigma only
+./run_pipeline.sh ssc       # ssc only
+```
+
+Outputs land in `data_prep/ir_data/`:
+
+| Stage | Script | Output |
+|---|---|---|
+| 1 | `build_unified_ir` | `unified_ir_{repo}.jsonl` — SPL parsed to Unified IR |
+| 2 | `build_pgir_from_ir` | `pgir_{repo}.jsonl` — Unified IR lifted to Predicate-Graph IR |
+| 3 | `split_pgir_by_predicate_graph` | `pgir_{repo}_empty.jsonl` / `pgir_{repo}_nonempty.jsonl` |
+
+### 4. Run the alignment pipeline (`align_src/`)
+
+Computes pairwise alignment and edit-distance trajectories between consecutive rule versions.
+
+**Input:** `data_prep/ir_data/pgir_{repo}_nonempty.jsonl`
+
+```bash
+cd data_prep/align_src
+./run_pipeline.sh           # both repos
+./run_pipeline.sh sigma     # sigma only
+./run_pipeline.sh ssc       # ssc only
+```
+
+Outputs land in `data_prep/align_data/`:
+
+| Output | Description |
+|---|---|
+| `all_steps_{repo}.jsonl` | One row per adjacent version pair — alignment, distance breakdown, change counts |
+| `all_trajectories_{repo}.jsonl` | One row per lineage — cumulative distance, shock ratio, revert counts, endpoint similarity |
+
+### 5. LLM annotation (`llm_src/`)
+
+Generates prompts for consecutive rule-version pairs and collects structured LLM responses used for intention labelling.
+
+**Input:** `data_prep/build_data/rule_versions_{repo}.jsonl`
+
+| Script | Purpose |
+|---|---|
+| `prepare_llm_prompts.py` | Generate prompts for all non-noop pairs → `llm_data/{repo}/prompts.jsonl` |
+| `prepare_llm_prompts_from_pair_manifest.py` | Generate prompts for an explicit curated pair list |
+| `run_llm.py` | Send prompts to an OpenAI-compatible API → `llm_data/{repo}/results.jsonl` |
+| `make_entries_from_audit.py` | Build pair manifests from audit results for targeted re-runs |
+| `structural_test_labels.py` | Helper: derive structural ground-truth labels without LLM (used in analysis) |
+
+> **LLM outputs are not reproducible.** Re-running `run_llm.py` will not produce identical results due to the non-deterministic nature of LLMs, potential model updates, and non-trivial API cost. **Use the provided `llm_data/` from Google Drive directly.**
+
+### 6. Optional: restore rule snapshots and run the build pipeline (`build_src/`)
+
+This step is not needed for normal artifact review. We recommend reviewers use the uploaded `data_prep/build_data/` from Google Drive and treat `build_src/` as an optional inspection or rebuild path.
 
 The upstream rule repositories (SigmaHQ/sigma and splunk/security_content) are not stored in this repo. They are provided as git bundle files on Google Drive, preserving the full commit history as of the April 10, 2026 snapshot used in the study.
 
@@ -64,67 +123,6 @@ This gives you two local git repositories with the exact commit history the pipe
 |---|---|---|
 | `rules_repo/sigma` | `d4d12bdd` | 2026-04-01 (HEAD as of 2026-04-10 + 17 branches) |
 | `rules_repo/splunk_sc` | `aa672c674` | 2026-04-09 (HEAD as of 2026-04-10 + 678 branches) |
-
-### 4. Run the IR pipeline (`ir_src/`)
-
-Parses the SPL in each rule version into a Predicate-Graph IR (PG-IR) used by all downstream analysis.
-
-**Input:** `data_prep/build_data/rule_versions_{repo}.jsonl`
-
-```bash
-cd data_prep/ir_src
-./run_pipeline.sh           # both repos
-./run_pipeline.sh sigma     # sigma only
-./run_pipeline.sh ssc       # ssc only
-```
-
-Outputs land in `data_prep/ir_data/`:
-
-| Stage | Script | Output |
-|---|---|---|
-| 1 | `build_unified_ir` | `unified_ir_{repo}.jsonl` — SPL parsed to Unified IR |
-| 2 | `build_pgir_from_ir` | `pgir_{repo}.jsonl` — Unified IR lifted to Predicate-Graph IR |
-| 3 | `split_pgir_by_predicate_graph` | `pgir_{repo}_empty.jsonl` / `pgir_{repo}_nonempty.jsonl` |
-
-### 5. Run the alignment pipeline (`align_src/`)
-
-Computes pairwise alignment and edit-distance trajectories between consecutive rule versions.
-
-**Input:** `data_prep/ir_data/pgir_{repo}_nonempty.jsonl`
-
-```bash
-cd data_prep/align_src
-./run_pipeline.sh           # both repos
-./run_pipeline.sh sigma     # sigma only
-./run_pipeline.sh ssc       # ssc only
-```
-
-Outputs land in `data_prep/align_data/`:
-
-| Output | Description |
-|---|---|
-| `all_steps_{repo}.jsonl` | One row per adjacent version pair — alignment, distance breakdown, change counts |
-| `all_trajectories_{repo}.jsonl` | One row per lineage — cumulative distance, shock ratio, revert counts, endpoint similarity |
-
-### 6. LLM annotation (`llm_src/`)
-
-Generates prompts for consecutive rule-version pairs and collects structured LLM responses used for intention labelling.
-
-**Input:** `data_prep/build_data/rule_versions_{repo}.jsonl`
-
-| Script | Purpose |
-|---|---|
-| `prepare_llm_prompts.py` | Generate prompts for all non-noop pairs → `llm_data/{repo}/prompts.jsonl` |
-| `prepare_llm_prompts_from_pair_manifest.py` | Generate prompts for an explicit curated pair list |
-| `run_llm.py` | Send prompts to an OpenAI-compatible API → `llm_data/{repo}/results.jsonl` |
-| `make_entries_from_audit.py` | Build pair manifests from audit results for targeted re-runs |
-| `structural_test_labels.py` | Helper: derive structural ground-truth labels without LLM (used in analysis) |
-
-> **LLM outputs are not reproducible.** Re-running `run_llm.py` will not produce identical results due to the non-deterministic nature of LLMs, potential model updates, and non-trivial API cost. **Use the provided `llm_data/` from Google Drive directly.**
-
-### 7. Optional: run the build pipeline (`build_src/`)
-
-This step is not needed for normal artifact review. We recommend reviewers use the uploaded `data_prep/build_data/` from Google Drive and treat `build_src/` as an optional inspection or rebuild path.
 
 ```bash
 cd data_prep/build_src
