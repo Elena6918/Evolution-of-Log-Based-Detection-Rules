@@ -22,3 +22,8 @@ rules_repo/sigma/
 rules_repo/splunk_sc/
 rules_repo/sigma.bundle
 rules_repo/splunk_sc.bundle
+
+# files that populated by build_src
+data_prep/macro_data/
+data_prep/rule_lineages_sigma/
+data_prep/rule_lineages_ssc/
