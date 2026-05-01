@@ -1,0 +1,81 @@
+// -------------------------------------------------------
+// Mini Boolean Grammar for SPL Search / Where Expressions
+// Derived from sigma2spl.lark
+// -------------------------------------------------------
+
+// Boolean precedence: NOT > AND > OR
+?expr: or_expr
+?or_expr: and_expr (OR and_expr)*
+?and_expr: not_expr ((AND | implicit_and) not_expr)*
+?not_expr: NOT not_expr           -> not_expr_node
+         | atom
+
+?atom: predicate
+     | "(" expr? ")"              -> group_expr
+
+implicit_and: /[ \t]+/            -> implicit_and
+
+// ---------------- predicates ----------------
+literal_only: ESCAPED_STRING | SIMPLE_QUOTED_FIELD | BARE_WILDCARD
+
+?predicate: literal_only                 -> predicate_literal_only
+          | field IN value_list          -> predicate_in_list
+          | field operator value         -> predicate_full
+
+value_list: "(" [value_item ("," value_item)*] ")"
+value_item: ESCAPED_STRING | NUMBER | CNAME | BARE_WILDCARD
+
+// ---------------- operators ----------------
+operator: EQ
+        | NEQ
+        | GE
+        | LE
+        | GT
+        | LT
+        | LIKE
+        | MATCHES
+        | CONTAINS
+        | STARTSWITH
+        | ENDSWITH
+
+// ---------------- values ----------------
+value: ESCAPED_STRING
+     | NUMBER
+     | CNAME
+     | BARE_WILDCARD
+
+// ---------------- fields ----------------
+field: BACKTICK_FIELD
+     | SIMPLE_QUOTED_FIELD
+     | CNAME
+
+// ---------------- tokens ----------------
+// Case-insensitive so that SPL written with lowercase and/or/not/in is handled
+// without falling back to the slower Python fallback parser.
+OR.2: /(?i:OR)/
+AND.2: /(?i:AND)/
+NOT.2: /(?i:NOT)/
+IN.2: /(?i:IN)/
+
+// operators
+EQ: "="
+NEQ: "!="
+GE: ">="
+LE: "<="
+GT: ">"
+LT: "<"
+LIKE: /(?i:LIKE)/
+MATCHES: /(?i:MATCHES)/
+CONTAINS: /(?i:CONTAINS)/
+STARTSWITH: /(?i:STARTSWITH)/
+ENDSWITH: /(?i:ENDSWITH)/
+
+// terminals
+BACKTICK_FIELD: /`[^`]+`/
+SIMPLE_QUOTED_FIELD.2: /"(?!\*)(?:\\.|[^"\\])*"/
+ESCAPED_STRING.1: /"(?:\\.|[^"\\])*"/
+BARE_WILDCARD: /\*/
+NUMBER: /-?\d+(?:\.\d+)?/
+CNAME.1: /[A-Za-z_][A-Za-z0-9_.]*/
+
+%ignore /[ \r\n]+/
