@@ -82,9 +82,9 @@ run_repo() {
     local t0
     t0=$(date +%s)
 
-    # run_stage "1"  build_rename_metadata.py               --repo-type "$repo"
-    # run_stage "2"  build_semantic_lineage_metadata.py     --repo-type "$repo"
-    # run_stage "3"  merge_non_head_lineages.py             --repo-type "$repo"
+    run_stage "1"  build_rename_metadata.py               --repo-type "$repo"
+    run_stage "2"  build_semantic_lineage_metadata.py     --repo-type "$repo"
+    run_stage "3"  merge_non_head_lineages.py             --repo-type "$repo"
     run_stage "4"  build_lineage_spl_per_rule.py          --repo-type "$repo"
     run_stage "5"  build_rule_versions.py                 --repo-type "$repo"
 

@@ -7,10 +7,8 @@
 # Both repos share the same pipeline:
 #   Stage 1  build_unified_ir               -> ir_data/unified_ir_{repo}.jsonl
 #   Stage 2  build_pgir_from_ir             -> ir_data/pgir_{repo}.jsonl
-#   Stage 3a split_pgir_by_predicate_graph  -> ir_data/pgir_{repo}_empty.jsonl
+#   Stage 3  split_pgir_by_predicate_graph  -> ir_data/pgir_{repo}_empty.jsonl
 #                                              ir_data/pgir_{repo}_nonempty.jsonl
-#   Stage 3b filter_non_empty_pgir          -> ir_data/pgir_{repo}_filtered.jsonl
-#   Stage 4  enrich_pgir_semantics_and_prov -> ir_data/pgir_{repo}_enriched.jsonl
 #
 # Usage:
 #   ./run_pipeline.sh           # run both repos
