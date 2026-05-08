@@ -1,6 +1,12 @@
 # Evolution-of-Log-Based-Detection-Rules
 
-This repository accompanies our study of how log-based detection rules evolve over time. It includes analysis notebooks, prepared datasets, and the data-preparation pipeline used to derive the rule evolution corpus.
+This repository accompanies the paper [**Evolution of Log-Based Detection Rules in Public Repositories**](https://arxiv.org/abs/2605.05383). It includes analysis notebooks, prepared datasets, and the data-preparation pipeline used to derive the rule evolution corpus.
+
+## Interactive Demo *(under development)*
+
+We are building a public interactive tool for exploring the rule evolution data — letting anyone search for a detection rule by name, view its revision timeline, and compare any two versions side by side. The demo is hosted at [elena6918.github.io/rule-explorer](https://elena6918.github.io/rule-explorer/) and is currently under active development. Features and data coverage will expand as the work progresses.
+
+---
 
 The easiest way to get started is to use the prepared data shared on Google Drive. That path lets you reproduce the results reported in the paper immediately and gives you a concrete starting point for understanding the data format before touching the full pipeline.
 
