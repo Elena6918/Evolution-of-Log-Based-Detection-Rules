@@ -521,7 +521,11 @@ def detect_structural_ops_for_pair(
         if unmatched_pred_desc_b(op_id) == 0:
             continue
         parent_id = pb.get(op_id)
-        if parent_id in unmatched_op_b and parent_id not in preserved_b:
+        if (
+            parent_id in unmatched_op_b
+            and parent_id not in preserved_b
+            and id2b[parent_id].label != "O:NOT"
+        ):
             continue
         lbl = id2b[op_id].label
         if lbl == "O:OR":   ev["n_new_or_with_preds"]  += 1
@@ -535,7 +539,11 @@ def detect_structural_ops_for_pair(
         if unmatched_pred_desc_a(op_id) == 0:
             continue
         parent_id = pa.get(op_id)
-        if parent_id in unmatched_op_a and parent_id not in preserved_a:
+        if (
+            parent_id in unmatched_op_a
+            and parent_id not in preserved_a
+            and id2a[parent_id].label != "O:NOT"
+        ):
             continue
         lbl = id2a[op_id].label
         if lbl == "O:OR":   ev["n_removed_or_with_preds"]  += 1
