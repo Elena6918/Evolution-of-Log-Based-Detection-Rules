@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
+*.cache 
 # Mac
 .DS_Store
 
@@ -27,3 +27,6 @@ rules_repo/splunk_sc.bundle
 data_prep/macro_data/
 data_prep/rule_lineages_sigma/
 data_prep/rule_lineages_ssc/
+
+# data files
+data_prep/*_data
