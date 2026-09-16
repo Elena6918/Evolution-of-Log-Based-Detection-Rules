@@ -1,6 +1,6 @@
 # `align_src`
 
-This directory contains the structural alignment stage of the pipeline. It takes the non-empty Predicate-Graph IR records produced by [data_prep/ir_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/ir_src/README.md) and computes how each rule changes from one version to the next.
+This directory contains the structural alignment stage of the pipeline. It takes the non-empty Predicate-Graph IR records produced by [data_prep/ir_src/README.md](data_prep/ir_src/README.md) and computes how each rule changes from one version to the next.
 
 For most users, the easiest path is to start from the prepared `align_data/` on Google Drive. If you want to regenerate the alignment outputs yourself, start from the prepared `ir_data/` and run the script here.
 
@@ -192,4 +192,4 @@ These outputs are consumed directly by the analysis notebooks in `analysis/scrip
 
 If you need to regenerate the PGIR inputs first, see:
 
-- [data_prep/ir_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/ir_src/README.md)
+- [data_prep/ir_src/README.md](data_prep/ir_src/README.md)

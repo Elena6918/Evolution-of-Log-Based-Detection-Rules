@@ -45,7 +45,7 @@ The main input to prompt generation is:
 - `data_prep/build_data/rule_versions_sigma.jsonl`
 - `data_prep/build_data/rule_versions_ssc.jsonl`
 
-These files come from [data_prep/build_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/build_src/README.md).
+These files come from [data_prep/build_src/README.md](../build_src/README.md).
 
 Some helper scripts also use:
 
@@ -172,9 +172,9 @@ For reproducing the paper:
 
 If you need the upstream versioned rule inputs, see:
 
-- [data_prep/build_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/build_src/README.md)
+- [data_prep/build_src/README.md](../build_src/README.md)
 
 If you want to compare the LLM outputs against structural signals, see:
 
-- [data_prep/align_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/align_src/README.md)
-- [data_prep/ir_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/ir_src/README.md)
+- [data_prep/align_src/README.md](../align_src/README.md)
+- [data_prep/ir_src/README.md](../ir_src/README.md)

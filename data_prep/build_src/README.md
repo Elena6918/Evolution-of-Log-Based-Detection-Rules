@@ -179,6 +179,6 @@ The main outputs of this directory are:
 
 These outputs feed directly into the later pipeline stages documented in:
 
-- [data_prep/ir_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/ir_src/README.md)
-- [data_prep/align_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/align_src/README.md)
-- [data_prep/llm_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/llm_src/README.md)
+- [data_prep/ir_src/README.md](../ir_src/README.md)
+- [data_prep/align_src/README.md](../align_src/README.md)
+- [data_prep/llm_src/README.md](../llm_src/README.md)

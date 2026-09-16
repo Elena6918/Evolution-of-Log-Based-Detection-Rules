@@ -1,6 +1,6 @@
 # `ir_src`
 
-This directory contains the IR parsing stage of the pipeline. It takes the versioned rule records produced by [data_prep/build_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/build_src/README.md) and converts each rule version's SPL into structured intermediate representations used by the downstream analysis.
+This directory contains the IR parsing stage of the pipeline. It takes the versioned rule records produced by [data_prep/build_src/README.md](data_prep/build_src/README.md) and converts each rule version's SPL into structured intermediate representations used by the downstream analysis.
 
 For most users, the easiest path is to start from the prepared `ir_data/` on Google Drive. If you want to regenerate the IR artifacts yourself, start from the prepared `build_data/` and run the scripts here.
 
@@ -105,8 +105,8 @@ The most important downstream output is usually `pgir_{repo}_nonempty.jsonl`, wh
 
 The outputs from this directory feed directly into the next stage documented in:
 
-- [data_prep/align_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/align_src/README.md)
+- [data_prep/align_src/README.md](../align_src/README.md)
 
 If you need to understand where the input `rule_versions_{repo}.jsonl` files come from, see:
 
-- [data_prep/build_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/build_src/README.md)
+- [data_prep/build_src/README.md](../build_src/README.md)

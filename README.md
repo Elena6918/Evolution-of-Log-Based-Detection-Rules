@@ -68,10 +68,10 @@ For most readers, starting with these prepared outputs is the best way to learn 
 
 If you want to regenerate the dataset yourself from snapshots of the upstream rule repositories, see the READMEs in the corresponding pipeline folders:
 
-- [data_prep/build_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/build_src/README.md)
-- [data_prep/ir_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/ir_src/README.md)
-- [data_prep/align_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/align_src/README.md)
-- [data_prep/llm_src/README.md](/Users/elena/Desktop/Evolution-of-Log-Based-Detection-Rules/data_prep/llm_src/README.md)
+- [data_prep/build_src/README.md](data_prep/build_src/README.md)
+- [data_prep/ir_src/README.md](data_prep/ir_src/README.md)
+- [data_prep/align_src/README.md](data_prep/align_src/README.md)
+- [data_prep/llm_src/README.md](data_prep/llm_src/README.md)
 
 Those guides are the right place for details on rebuilding pipeline stages, working from repository snapshots, and generating new derived outputs.
 
