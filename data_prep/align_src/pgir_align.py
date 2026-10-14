@@ -1368,10 +1368,14 @@ def _distance_accounting_from_trees(
     pred_update_costs = {"pred_field_shift": 0.0, "pred_op_shift": 0.0, "pred_value_shift": 0.0}
 
     if dist_cfg.charge_unmatched_by_subtree_roots:
+        # Unmatched subtrees can overlap across a matched intermediate node.
+        charged_a = set()
+        charged_b = set()
         for r in _unmatched_roots(unmatched_a, pa):
             for u in _subtree_nodes(r, ca):
-                if u not in unmatched_a:
+                if u not in unmatched_a or u in charged_a:
                     continue
+                charged_a.add(u)
                 if _is_pred_leaf(id2a, u):
                     del_pred += dist_cfg.pred_delete_cost
                     change_counts["pred_deletion"] += 1
@@ -1380,8 +1384,9 @@ def _distance_accounting_from_trees(
                     change_counts["op_deletion"] += 1
         for r in _unmatched_roots(unmatched_b, pb):
             for u in _subtree_nodes(r, cb):
-                if u not in unmatched_b:
+                if u not in unmatched_b or u in charged_b:
                     continue
+                charged_b.add(u)
                 if _is_pred_leaf(id2b, u):
                     ins_pred += dist_cfg.pred_insert_cost
                     change_counts["pred_insertion"] += 1

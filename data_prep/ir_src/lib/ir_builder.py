@@ -81,7 +81,11 @@ class ToRawIR(Transformer):
         return children
 
     def ESCAPED_STRING(self, t):
-        s = str(t)[1:-1]
+        return self._string_value(str(t)[1:-1])
+
+    @staticmethod
+    def _string_value(s):
+        # Preserve existing escaping and subtype conventions in both contexts.
         if "*" in s or "?" in s:
             return {"type": "value", "subtype": "wildcard", "value": s}
         if any(x in s for x in ["\\d", ".", "^", "$", "(", ")", "+", "?"]):
@@ -151,6 +155,10 @@ class ToRawIR(Transformer):
 
     def predicate_literal_only(self, items):
         val = items[0]
+        # SIMPLE_QUOTED_FIELD also matches standalone quoted search terms.
+        # Only in this literal position is it a value, not a field reference.
+        if isinstance(val, dict) and val.get("type") == "field":
+            val = self._string_value(val["value"])
         return {
             "type": "predicate",
             "field": {"type": "field", "value": "_raw"},
