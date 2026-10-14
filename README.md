@@ -5,11 +5,11 @@ This repository accompanies the paper [**Evolution of Log-Based Detection Rules 
 ## Interactive Demo 
 
 We built a public interactive tool for exploring the rule evolution data: letting anyone search for a detection rule by name, view its revision timeline, and compare any two versions side by side. The demo is hosted at [elena6918.github.io/rule-explorer](https://elena6918.github.io/rule-explorer/).
----
 
-The easiest way to get started is to use the prepared data shared on Google Drive. That path lets you reproduce the results reported in the paper immediately and gives you a concrete starting point for understanding the data format before touching the full pipeline.
 
 ## Quick Start
+
+The easiest way to get started is to use the prepared data shared on Google Drive. That path lets you reproduce the results reported in the paper immediately and gives you a concrete starting point for understanding the data format before touching the full pipeline.
 
 ### 1. Create a Python environment
 
